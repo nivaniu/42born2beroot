@@ -1,0 +1,68 @@
+touch .bash_aliases
+touch logs
+echo “alias c=clear” >> .bash_aliases
+echo “log(){” >> .bash_aliases
+echo “echo #* >> /home/nivaniuk/logs” >> .bash_aliases
+echo “}” >> .bash_aliases
+su - root <<! >/dev/null 2>&1
+root
+# Installing packages
+apt-get install sudo -y
+apt install ufw
+# Configuring ssh
+echo “Port 4242” >> /etc/ssh/sshd_config
+echo “PermitRootLogin no” >> /etc/ssh/sshd_config
+systemctl stop ssh
+systemctl start ssh
+echo “10.0.2.15 me” >> /etc/hosts
+ssh nivaniuk@me -p 4242
+# Configuring firewall
+cd /etc/ufw/applications.d/
+sudo ufw default deny incoming
+sudo ufw enable
+sudo ufw status numbered
+# Configuring sudo
+sudoers=/etc/sudoers.d/
+touch /etc/sudoers.d//sudo_config
+chmod 0440 /etc/sudoers.d//sudo_config
+# Creating and assigning groups
+sudo groupadd user42
+getent group | grep user42
+sudo usermod -a -G user42,sudo nivaniuk
+sudo useradd -g users -G user42,sudo tempuser
+sudo deluser --remove-all-files tempuser
+# Making monitoring.sh script
+touch /home/nivaniuk/monitoring.sh
+head -n 2 /etc/os-release
+/usr/sbin/aa-status
+ss -tunlp
+/usr/sbin/ufw status
+# horizontal line :: printf \xE2\x80\x95
+# horizontal line :: printf ‘xE2x80x95’
+uname -a | wall
+cat /proc/cpuinfo
+lscpu
+lscpu
+lscpu | egrep ‘Model name|Socket|Thread’
+cat /proc/cpuinfo
+cat /proc/cpuinfo | grep ‘cpu cores’| tr -d ‘cpu cores: t’
+cat /proc/cpuinfo | grep ‘cpu cores’| tr -d ‘cpu cores: \t’
+grep “physical id” /proc/cpuinfo | sort |uniq|wc -l
+grep “^processor” /proc/cpuinfo | wc -l
+free -m | grep Mem | awk ‘{print }’
+free -m | grep Mem | awk ‘{print $2}’
+df -h --total | grep total | awk ‘{print $2}’
+top -bn1 | grep Cpu | awk ‘{print $2}’
+who -b
+cat /etc/fstab | grep /dev/mapper | wc -l
+lsof -ni -sTCP:ESTABLISHED | wc -l
+lsof -ni -sTCP:ESTABLISHED
+w | head -n 1 |awk ‘{print $4}’
+ip addr | grep ‘inet ’ | tr -t / ' ' | awk ‘{print $2}’ | grep -v 127 | head -n 1
+ip addr | grep link/ether | awk ‘{print $2}’ | head -n 1
+mkdir /var/log/sudo
+touch /var/log/sudo/sudo_logs
+echo “Defaults logfile=/var/log/sudo/sudo_logs” >>/etc/sudoers.d/sudo_config
+cat /var/log/sudo/sudo_logs | grep -i command | wc -l
+
+
