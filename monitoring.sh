@@ -20,7 +20,7 @@ then
 else
         lvm=‘yes’
 fi
-nbr_tcp_co=$(lsof -ni -sTCP:ESTABLISHED | wc -l) # check if this is correct
+nbr_tcp_co=$(w | grep " pts/" | awk '{print $3}'| wc -l) 
 nbr_usr_co=$(w | head -n 1 |awk ‘{print $4}‘)
 ip=$(ip addr | grep ‘inet ’ | tr -t / ' ' | awk ‘{print $2}’ | grep -v 127 | head -n 1)
 mac=$(ip addr | grep link/ether | awk ‘{print $2}’ | head -n 1)
