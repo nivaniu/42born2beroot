@@ -65,4 +65,92 @@ touch /var/log/sudo/sudo_logs
 echo “Defaults logfile=/var/log/sudo/sudo_logs” >>/etc/sudoers.d/sudo_config
 cat /var/log/sudo/sudo_logs | grep -i command | wc -l
 
+crontab -e
+0,9,19,29,39,49 logs monitoring.sh monitoring.sh_backup_01 monitoring.sh_backup_02 monitoring.sh_backup_03 monitoring.sh_backup_04 sudo_config test test.sh test.txt logs monitoring.sh monitoring.sh_backup_01 monitoring.sh_backup_02 monitoring.sh_backup_03 monitoring.sh_backup_04 sudo_config test test.sh test.txt logs monitoring.sh monitoring.sh_backup_01 monitoring.sh_backup_02 monitoring.sh_backup_03 monitoring.sh_backup_04 sudo_config test test.sh test.txt logs monitoring.sh monitoring.sh_backup_01 monitoring.sh_backup_02 monitoring.sh_backup_03 monitoring.sh_backup_04 sudo_config test test.sh test.txt /home/nivaniuk/monitoring.sh
+/usr/sbin/visudo -f /home/nivaniuk/sudo_config
+cp sudo_config /etc/sudoers.d/sudo_config
+/usr/sbin/visudo -f /etc/sudoers.d/sudo_config
 
+# BEGIN sudo_config file
+
+# Drop this file into /etc/sudoers.d/ folder
+# Edit this file with /usr/sbin/visudo -f /etc/sudoers.d/sudo_config
+
+# Explicitely setting nbr of tries to 3
+Defaults	passwd_tries=3
+# Personalised bad password_message
+Defaults	badpass_message="Wrong password bruh"
+# Setting up logs
+Defaults	logfile=/var/log/sudo/sudo_logs
+# Enabling tty mode
+Defaults	requiretty
+# Setting path sudo can use
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+# END sudo_config file
+cd /etc/pam.d/
+# Password changes
+cp common-password common-password.bak
+sudo nano common-password
+date -d +120 days +%F
+nano /etc/login.defs
+PASS_MAX_DAYS 30
+PASS_MIN_DAYS 2
+PASS_WARN_AGE 7
+#
+# /etc/pam.d/common-password - password-related modules common to all services
+#
+# This file is included from other service-specific PAM config files,
+# and should contain a list of modules that define the services to be
+# used to change user passwords.  The default is pam_unix.
+
+# Explanation of pam_unix options:
+#
+# The "sha512" option enables salted SHA512 passwords.  Without this option,
+# the default is Unix crypt.  Prior releases used the option "md5".
+#
+# The "obscure" option replaces the old `OBSCURE_CHECKS_ENAB' option in
+# login.defs.
+#
+# See the pam_unix manpage for other options.
+
+# As of pam 1.0.1-6, this file is managed by pam-auth-update by default.
+# To take advantage of this, it is recommended that you configure any
+# local modules either before or after the default block, and use
+# pam-auth-update to manage selection of other modules.  See
+# pam-auth-update(8) for details.
+
+# here are the per-package modules (the "Primary" block)
+password	[success=1 default=ignore]	pam_unix.so obscure sha512
+# here's the fallback if no module succeeds
+password	requisite			pam_deny.so
+# prime the stack with a positive return value if there isn't one already;
+# this avoids us returning an error just because nothing sets a success code
+# since the modules above will each just jump around
+password	required			pam_permit.so
+# and here are more per-package modules (the "Additional" block)
+
+#password required minlen=7
+#password required minlen=10 ucredit=-1 maxrepeat=2 usercheck
+
+# try_first_pass retry=3 minlem=10 lcredit=1 dredit=2 ocredoit=1 difok=2 reject_username
+
+
+# minlen = minimum password length
+# minclass = the minimum number of character types that must be used (i.e., uppercase, lowercase, digits, other)
+# maxrepeat = the maximum number of times a single character may be repeated
+# maxclassrepeat = the maximum number of characters in a row that can be in the same class
+# lcredit = maximum number of lowercase characters that will generate a credit
+# ucredit = maximum number of uppercase characters that will generate a credit
+# dcredit = maximum number of digits that will generate a credit
+# ocredit = maximum number of other characters that will generate a credit
+# difok = the minimum number of characters that must be different from the old password
+# remember = the number of passwords that will be remembered by the system so that they cannot be used again
+# gecoscheck = whether to check for the words from the passwd entry GECOS string of the user (enabled if the value is not 0)
+# dictcheck = whether to check for the words from the cracklib dictionary (enabled if the value is not 0)
+# usercheck = whether to check if the password contains the user name in some form (enabled if the value is not 0)
+# enforcing = new password is rejected if it fails the check and the value is not 0
+# dictpath = path to the cracklib dictionaries. Default is to use the cracklib default.
+
+
+# end of pam-auth-update config

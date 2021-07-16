@@ -27,5 +27,11 @@ https://www.cyberciti.biz/tips/linux-last-reboot-time-and-date-find-out.html?__c
 https://askubuntu.com/questions/202613/how-do-i-check-whether-i-am-using-lvm
 https://serverfault.com/questions/527875/how-do-i-get-the-number-of-currently-established-tcp-connections-for-a-specifi
 https://alvinalexander.com/linux/linux-crontab-file-format-example/
+https://www.howtogeek.com/101288/how-to-schedule-tasks-on-linux-an-introduction-to-crontab-files/
+https://www.garron.me/en/linux/visudo-command-sudoers-file-sudo-default-editor.html
+https://github.com/millert/sudo/blob/main/INSTALL#L602-L605
+https://www.tecmint.com/sudo-insult-when-enter-wrong-password/
+https://www.shell-tips.com/linux/sudo-sorry-you-must-have-a-tty-to-run-sudo/#:~:text=The%20error%20message%20sudo%3A%20sorry,default%20to%20require%20a%20tty%20.
+https://ostechnix.com/force-users-use-strong-passwords-debian-ubuntu/
 lsof -Pi | grep ssh
 systemctl restart sshd
