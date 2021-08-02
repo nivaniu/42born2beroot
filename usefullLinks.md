@@ -1,3 +1,7 @@
+https://www.tecmint.com/difference-between-apt-and-aptitude/
+https://security.stackexchange.com/questions/29378/comparison-between-apparmor-and-selinux
+https://en.wikipedia.org/wiki/AppArmor
+https://www.cyberciti.biz/faq/debian-change-hostname-permanently/?__cf_chl_captcha_tk__=pmd_bc1c101e6baf586dd33382fe98d5378b53aaeed4-1627133351-0-gqNtZGzNAyKjcnBszQki
 https://unix.stackexchange.com/questions/577379/how-can-i-install-debian-with-full-disk-encryption-and-a-custom-sized-swapfile/577765#577765?newreg=d992ecbfd4374ddf8269e042d3aed204
 https://www.howtoforge.com/linux-lsblk-command/
 https://www.quora.com/What-is-the-difference-between-Primary-and-logical-partition#:~:text=In%20simple%20words%2C,'boot%20files'%20on%20it)
@@ -33,5 +37,14 @@ https://github.com/millert/sudo/blob/main/INSTALL#L602-L605
 https://www.tecmint.com/sudo-insult-when-enter-wrong-password/
 https://www.shell-tips.com/linux/sudo-sorry-you-must-have-a-tty-to-run-sudo/#:~:text=The%20error%20message%20sudo%3A%20sorry,default%20to%20require%20a%20tty%20.
 https://ostechnix.com/force-users-use-strong-passwords-debian-ubuntu/
+https://www.networkworld.com/article/2726217/how-to-enforce-password-complexity-on-linux.html
+https://ostechnix.com/how-to-set-password-policies-in-linux/
+https://linux.die.net/man/8/pam_cracklib
+https://wiki.deimos.fr/Pam_cracklib_:_Choisir_la_complexit%C3%A9_des_mots_de_passe.html
+https://linuxconfig.org/how-to-deny-all-incoming-ports-except-ssh-port-22-on-ubuntu-18-04-bionic-beaver-linux
+https://www.cyberciti.biz/faq/linux-howto-check-user-password-expiration-date-and-time/?__cf_chl_captcha_tk__=pmd_58e4b99c060dd7aed0e771be34a316dcc8dfe576-1627909201-0-gqNtZGzNAzijcnBszQki
+https://linux.die.net/man/1/chage
 lsof -Pi | grep ssh
+
+
 systemctl restart sshd

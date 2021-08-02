@@ -10,16 +10,16 @@ root
 
 lsblk
 # Difference between aptitude and apt
-# Short answer, Aptitude is higher lvl package manager that encapsulates apt$
-# Aptitude      <- High lvl package manager | Uses apt-get and other it's va$
-# Apt           <- Lower lvl package manager
+# Short answer, Aptitude is higher lvl package manager that encapsulates apt & other
+# Aptitude	<- High lvl package manager | Uses apt-get and other it's variances | has UI | better package management
+# Apt		<- Lower lvl package manager
 
 # AppArmor VS SELinux
 # Both are security modules that are simular to mandatory access control
 # So when application is compromised it prevents damage
 # Limit ressources that could be used by programs
-# AppArmor      <- Easier in use | works with paths | Binds access to progra$
-# SELinux       <- Harder in use | works with lables | No NFS | Easy to mess$
+# AppArmor	<- Easier in use | works with paths | Binds access to programs
+# SELinux	<- Harder in use | works with lables | No NFS | Easy to mess up | if done properly could be potentially more secure tho usually just introduces more holes
 
 # Configuring ssh
 echo "Port 4242" >> /etc/ssh/sshd_config
@@ -53,7 +53,7 @@ echo "newHostName42" > /etc/hostname
 
 # Install and condigure sudo following strict rules bewow
 
-# In addition the root user, a user with our login as username has to be pre$
+# In addition the root user, a user with our login as username has to be present
 users
 
 # This user should belong to user42 and sudo groups
@@ -74,17 +74,13 @@ cd /etc/pam.d/
 cp common-password common-password.bak
 sudo nano common-password
 
-# Your password has to expie every 30 days
-  GNU nano 3.2                        logs
-
-
-# Your password has to expie every 30 days
+# Your password has to expie every 30 days 
 nano /etc/login.defs
 PASS_MAX_DAYS 30
 # min days allowed before modification of a password will be set to 2
 nano /etc/login.defs
 PASS_MIN_DAYS 2
-# User has to receive a warning message 7 days before pass expires
+# User has to receive a warning message 7 days before pass expires 
 nano /etc/login.defs
 PASS_WARN_AGE 7
 
@@ -107,48 +103,48 @@ nano /etc/pam.d/common-password
 
 # file modifications :
 # here are the per-package modules (the "Primary" block)
-password        requisite       pam_cracklib.so enforce_for_root difok=7 min$
-password        [success=1 default=ignore]      pam_unix.so obscure sha512
+password	requisite	pam_cracklib.so enforce_for_root difok=7 minlen=10 dcredit=-1 ucredit=-1 maxrepeat=3 reject_username
+password	[success=1 default=ignore]	pam_unix.so obscure sha512
 # here's the fallback if no module succeeds
-password        requisite                       pam_deny.so
+password	requisite			pam_deny.so
 # prime the stack with a positive return value if there isn't one already;
 # this avoids us returning an error just because nothing sets a success code
 # since the modules above will each just jump around
-password        required                        pam_permit.so
+password	required			pam_permit.so
 # and here are more per-package modules (the "Additional" block)
 
 # minlen = minimum password length
-# minclass = the minimum number of character types that must be used (i.e., $
+# minclass = the minimum number of character types that must be used (i.e., uppercase, lowercase, digits, other)
 # maxrepeat = the maximum number of times a single character may be repeated
-# maxclassrepeat = the maximum number of characters in a row that can be in $
-# lcredit = maximum number of lowercase characters that will generate a cred$
-# ucredit = maximum number of uppercase characters that will generate a cred$
+# maxclassrepeat = the maximum number of characters in a row that can be in the same class
+# lcredit = maximum number of lowercase characters that will generate a credit
+# ucredit = maximum number of uppercase characters that will generate a credit
 # dcredit = maximum number of digits that will generate a credit
 # ocredit = maximum number of other characters that will generate a credit
-# difok = the minimum number of characters that must be different from the o$
-# remember = the number of passwords that will be remembered by the system s$
-# gecoscheck = whether to check for the words from the passwd entry GECOS st$
-# dictcheck = whether to check for the words from the cracklib dictionary (e$
-# usercheck = whether to check if the password contains the user name in som$
-# enforcing = new password is rejected if it fails the check and the value i$
-# dictpath = path to the cracklib dictionaries. Default is to use the crackl$
+# difok = the minimum number of characters that must be different from the old password
+# remember = the number of passwords that will be remembered by the system so that they cannot be used again
+# gecoscheck = whether to check for the words from the passwd entry GECOS string of the user (enabled if the value is not 0)
+# dictcheck = whether to check for the words from the cracklib dictionary (enabled if the value is not 0)
+# usercheck = whether to check if the password contains the user name in some form (enabled if the value is not 0)
+# enforcing = new password is rejected if it fails the check and the value is not 0
+# dictpath = path to the cracklib dictionaries. Default is to use the cracklib default.
 
 
 # end of pam-auth-update config
 
-# password      requisite       pam_cracklib.so enforce_for_root difok=7 min$
-# pam_cracklib.so       <-      schema to correct installed lib
-# minlen=10             <-      password must be at least 10 chars long
-# ucredit=-1            <-      require uppercase
-# dcredit=-1            <-      require digits
-# maxrepeat=3           <-      no more than 3 consecutive identical chars
-# reject_username       <-      No username in the password in any form
-# difok=7               <-      At least 7 chars different from prev passwor$
-# enforce_for_root      <-      by default rules are applicable only to regu$
+# password	requisite	pam_cracklib.so enforce_for_root difok=7 minlen=10 dcredit=-1 ucredit=-1 maxrepeat=3 reject_username
+# pam_cracklib.so	<-	schema to correct installed lib
+# minlen=10		<-	password must be at least 10 chars long
+# ucredit=-1		<-	require uppercase
+# dcredit=-1		<-	require digits
+# maxrepeat=3		<-	no more than 3 consecutive identical chars
+# reject_username	<-	No username in the password in any form
+# difok=7		<-	At least 7 chars different from prev password | does not work for root since root does not ask for password when changing
+# enforce_for_root	<-	by default rules are applicable only to regular users, here we ask to apply them to root aswell
 
 # END PASSWORD PARAMETRAGE
 
-# To change password
+# To change password 
 passwd
 
 # Configuring sudo
@@ -168,18 +164,18 @@ cp sudo_config /etc/sudoers.d/sudo_config
 # Edit this file with /usr/sbin/visudo -f /etc/sudoers.d/sudo_config
 
 # Explicitely setting nbr of tries to 3
-Defaults        passwd_tries=3
+Defaults	passwd_tries=3
 # Personalised bad password_message
-Defaults        badpass_message="Wrong password bruh"
+Defaults	badpass_message="Wrong password bruh"
 # Setting up logs
-Defaults        logfile=/var/log/sudo/sudo_logs
+Defaults	logfile=/var/log/sudo/sudo_logs
 # need more logs input output logs
 Defaults        log_input,log_output
 Defaults        iolog_dir="/var/log/sudo"
 # Enabling tty mode
-Defaults        requiretty
+Defaults	requiretty
 # Setting path sudo can use
-Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/b$
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
 
 # END sudo_config file
 
@@ -207,34 +203,32 @@ nbr_lvm=$(cat /etc/fstab | grep /dev/mapper | wc -l)
 # if we have those meaning we are using LVM so it's active
 if [[ $nbr_lvm -eq 0 ]]
 then
-        lvm='no'
+	lvm='no'
 else
-        lvm='yes'
+	lvm='yes'
 fi
 
-nbr_tcp_co=$(w| grep " pts/" | awk '{print $3}' | wc -l)
-nbr_usr_co=$(w | head -n 1 |awk '{print $4}')
-ip=$(ip addr | grep 'inet ' | tr -t / ' ' | awk '{print $2}' | grep -v 127 |$
+nbr_tcp_co=$(w| grep " pts/" | awk '{print $3}' | wc -l) 
+nbr_usr_co=$(w | head -n 1 | awk '{print $5}')
+ip=$(ip addr | grep 'inet ' | tr -t / ' ' | awk '{print $2}' | grep -v 127 | head -n 1)
 mac=$(ip addr | grep link/ether | awk '{print $2}' | head -n 1)
 sudo_com=$(cat /var/log/sudo/sudo_logs | grep -i command | wc -l)
 
 wall << .
-        #Architecture: $arch
-        #CPU physical : $p_cpu
-        #vCPU : $v_cpu
-        #Memory Usage : $used_mem/$t_mem MB (${p_mem::4}%)
-        #Disk Usage : $u_space/$t_space ($p_space)
-        #CPU load : $u_cpu%
-        #Last boot : $l_b_date $l_b_time
-        #LVM use : $lvm
-        #Connections TCP : $nbr_tcp_co ESTABLISHED
-        #User log: $nbr_usr_co
-        #Network : IP $ip ($mac)
-        #Sudo :  $sudo_com cmd
+	#Architecture: $arch
+	#CPU physical : $p_cpu
+	#vCPU : $v_cpu
+	#Memory Usage : $used_mem/$t_mem MB (${p_mem::4}%)
+	#Disk Usage : $u_space/$t_space ($p_space)
+	#CPU load : $u_cpu%
+	#Last boot : $l_b_date $l_b_time
+	#LVM use : $lvm
+	#Connections TCP : $nbr_tcp_co ESTABLISHED
+	#User log: $nbr_usr_co
+	#Network : IP $ip ($mac)
+	#Sudo :  $sudo_com cmd
 .
 
-
-# End file
 # Schedule program run each 10 min :
 crontab -e
 */10 * * * * /home/nivaniuk/monitoring.sh
@@ -267,10 +261,12 @@ cat /etc/fstab | grep /dev/mapper | wc -l
 lsof -ni -sTCP:ESTABLISHED | wc -l
 lsof -ni -sTCP:ESTABLISHED
 w | head -n 1 |awk '{print $4}'
-ip addr | grep 'inet ' | tr -t / ' ' | awk '{print $2}' | grep -v 127 | head$
+ip addr | grep 'inet ' | tr -t / ' ' | awk '{print $2}' | grep -v 127 | head -n 1
 ip addr | grep link/ether | awk '{print $2}' | head -n 1
 mkdir /var/log/sudo
 touch /var/log/sudo/sudo_logs
 echo "Defaults logfile=/var/log/sudo/sudo_logs" >>/etc/sudoers.d/sudo_config
 cat /var/log/sudo/sudo_logs | grep -i command | wc -l
 ss -tlnp
+
+
